@@ -7,12 +7,12 @@ from bs4 import BeautifulSoup
 pages = set()
 images = set()
 downloadDirectory = "wallpapers"
+numImg = 0
 
 def getPages(pageUrl):
     global pages
     try:
         html = urlopen("http://simpledesktops.com" + pageUrl)
-        #print(pageUrl)
     except HTTPError as e:
         return None
     try:
@@ -30,7 +30,7 @@ def getPages(pageUrl):
         if nextPage.attrs['href'] not in pages:
             newPage = nextPage.attrs['href']
             pages.add(newPage)
-            #getPages(newPage)
+            getPages(newPage)
 
 
 def getImgLinks(obj):
@@ -43,7 +43,6 @@ def getImgLinks(obj):
             if 'href' in link.attrs:
                 if link.attrs['href'] not in images:
                     newImgLink = link.attrs['href']
-                    #print(newImgLink)
                     images.add(newImgLink)
                     getImg(newImgLink)
 
@@ -67,15 +66,21 @@ def getImg(imgLink):
             print(url.group(0))
             urlretrieve(url.group(0), getDownloadPath(url.group(0), downloadDirectory))
 
+
 def getDownloadPath(imgLink, downloadDirectory):
-    path = imgLink.replace(re.compile("^(http://static.simpledesktops.com/uploads/desktops/)?([0-9]+/)+"), "")
-    path = downloadDirectory+"/"+path
-    directory = os.path.dirname(path)
+    global numImg
+    path = re.match("^(http://static.simpledesktops.com/uploads/desktops/)+([0-9]+/)+", imgLink)
+    path = imgLink.replace(path.group(0), "")
+    #To avoid freeze with img named ".png"
+    if path == ".png":
+        numImg += 1
+        path = "localImg"+str(numImg)+path
+    directory = os.path.dirname(os.path.abspath(__file__))+"/"+downloadDirectory
     
     if not os.path.exists(directory):
         os.makedirs(directory)
         
-    return path
+    return directory+"/"+path
 
 
-getPages("/browse/")
+getPages("/browse/32")
