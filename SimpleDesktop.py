@@ -83,4 +83,4 @@ def getDownloadPath(imgLink, downloadDirectory):
     return directory+"/"+path
 
 
-getPages("/browse/32")
+getPages("/browse/")
