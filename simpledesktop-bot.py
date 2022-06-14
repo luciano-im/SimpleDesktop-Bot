@@ -7,6 +7,9 @@ from bs4 import BeautifulSoup
 
 
 def requestPage(url):
+    """
+    Request pages and parse HTML response
+    """
     try:
         raw_html = requests.get(url)
         try:
@@ -21,6 +24,9 @@ def requestPage(url):
 
 
 def getPageContent(url):
+    """
+    Get wallpaper and next page data from requested page
+    """
     images = []
     next_page = None
     
@@ -43,6 +49,9 @@ def getPageContent(url):
 
 
 def downloadWallpaper(wallpapers, directory):
+    """
+    Process wallpaper downloads
+    """
     for url in wallpapers:
         match_url = re.match('^.+?(\.png|jpg)', url)
         if match_url:
@@ -60,6 +69,9 @@ def downloadWallpaper(wallpapers, directory):
 
 
 def processPage(url, path, download_directory):
+    """
+    Recursive function that deliver pages to request and wallpaper's data to the other functions
+    """
     print('\nPATH:', path)
     print('=========================')
 
@@ -74,15 +86,15 @@ def processPage(url, path, download_directory):
         print('THIS IS THE END, BUDDY')
 
 
-def init():
+if __name__ == '__main__':
+    # Run, run, run
     url = 'http://simpledesktops.com'
     first_path = '/browse/'
     download_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wallpapers')
     
+    # Create download directory if it does not exists
     if not os.path.exists(download_directory):
         os.makedirs(download_directory)
     
+    # Start crawling
     processPage(url, first_path, download_directory)
-
-
-init()
