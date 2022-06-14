@@ -1,6 +1,6 @@
 # SimpleDesktop-Bot
 
-This script was refactored to be part of the [Web Scraping con Python](https://www.luciano.im/blog/web-scraping-con-python/) blog post.
+This script is part of the [Web Scraping with Python](https://dev.to/luciano_dev/web-scraping-with-python-1h9b) blog post.
 
 <br>
 
@@ -13,8 +13,12 @@ This script was refactored to be part of the [Web Scraping con Python](https://w
 1. Install [Python 3](https://www.python.org/)
 2. Install requests and Beautiful Soup
     ```
-    $ pip3 install requests
-    $ pip3 install beautifulsoup4
+    $ pip install requests
+    $ pip install beautifulsoup4
+    ```
+    or
+    ```
+    $ pip install -r requirements.txt
     ```
 3. Run
     ```
